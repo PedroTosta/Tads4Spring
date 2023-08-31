@@ -12,11 +12,11 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nome;
+    private String name;
     @Column(columnDefinition = "TEXT")
 
-    private String descricao;
-    private Double preco;
+    private String description;
+    private Double price;
     private String imgUrl;
 
     @ManyToMany
@@ -31,11 +31,11 @@ public class Product {
     public Product() {
     }
 
-    public Product(Long id, String nome, String descricao, Double preco, String imgUrl) {
+    public Product(Long id, String name, String description, Double price, String imgUrl) {
         this.id = id;
-        this.nome = nome;
-        this.descricao = descricao;
-        this.preco = preco;
+        this.name = name;
+        this.description = description;
+        this.price = price;
         this.imgUrl = imgUrl;
     }
 
@@ -67,28 +67,28 @@ public class Product {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public Double getPreco() {
-        return preco;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setPreco(Double preco) {
-        this.preco = preco;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public String getImgUrl() {

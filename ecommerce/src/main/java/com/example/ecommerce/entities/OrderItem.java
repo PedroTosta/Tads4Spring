@@ -7,17 +7,17 @@ import jakarta.persistence.*;
 public class OrderItem {
     @EmbeddedId
     private OrderItemPK id = new OrderItemPK();
-    private Integer quantidade;
-    private Double preco;
+    private Integer quantity;
+    private Double price;
 
     public OrderItem() {
     }
 
-    public OrderItem(Order order, Product product,  Integer quantidade, Double preco) {
+    public OrderItem(Order order, Product product, Integer quantity, Double price) {
         id.setOrder(order);
         id.setProduct(product);
-        this.quantidade = quantidade;
-        this.preco = preco;
+        this.quantity = quantity;
+        this.price = price;
     }
 
     public Order getOrder() {
@@ -44,19 +44,19 @@ public class OrderItem {
         this.id = id;
     }
 
-    public Integer getQuantidade() {
-        return quantidade;
+    public Integer getQuantity() {
+        return quantity;
     }
 
-    public void setQuantidade(Integer quantidade) {
-        this.quantidade = quantidade;
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
     }
 
-    public Double getPreco() {
-        return preco;
+    public Double getPrice() {
+        return price;
     }
 
-    public void setPreco(Double preco) {
-        this.preco = preco;
+    public void setPrice(Double price) {
+        this.price = price;
     }
 }
