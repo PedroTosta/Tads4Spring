@@ -2,11 +2,13 @@ package com.example.ecommerce.dto;
 
 import com.example.ecommerce.entities.Product;
 import jakarta.persistence.Column;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 public class ProductDTO {
     private Long id;
     private String name;
-
     private String description;
     private Double price;
     private String imgUrl;
