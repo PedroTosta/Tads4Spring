@@ -1,8 +1,10 @@
 package com.example.ecommerce.controllers;
 
 import com.example.ecommerce.dto.ProductDTO;
+import com.example.ecommerce.dto.CustomError;
 import com.example.ecommerce.entities.Product;
 import com.example.ecommerce.service.ProductService;
+import com.example.ecommerce.service.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,9 +22,11 @@ import java.util.Optional;
 public class ProductController {
     @Autowired
     private ProductService service;
+
     @GetMapping(value = "/{id}")
-    public ProductDTO findById(@PathVariable Long id){
-        return service.findById(id);
+    public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
+        ProductDTO dto = service.findById(id);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping
@@ -49,7 +54,7 @@ public class ProductController {
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
-        return ResponseEntity.noContent().build();1
+        return ResponseEntity.noContent().build();
     }
 
 }
