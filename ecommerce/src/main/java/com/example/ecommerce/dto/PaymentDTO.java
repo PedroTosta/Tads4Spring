@@ -1,27 +1,29 @@
-package com.example.ecommerce.entities;
+package com.example.ecommerce.dto;
 
-import jakarta.persistence.*;
+import com.example.ecommerce.entities.Order;
+import com.example.ecommerce.entities.Payment;
+import com.example.ecommerce.entities.Product;
 
 import java.time.Instant;
 
-@Entity
-@Table(name = "tb_payment")
-public class Payment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class PaymentDTO {
     private Long id;
     private Instant moment;
-    @OneToOne
-    @MapsId
     private Order order;
 
-    public Payment() {
+    public PaymentDTO() {
     }
 
-    public Payment(Long id, Instant moment, Order order) {
+    public PaymentDTO(Long id, Instant moment, Order order) {
         this.id = id;
         this.moment = moment;
         this.order = order;
+    }
+
+    public PaymentDTO(Payment entity){
+        id = entity.getId();
+        moment = entity.getMoment();
+        order = entity.getOrder();
     }
 
     public Long getId() {
@@ -32,7 +34,6 @@ public class Payment {
         this.id = id;
     }
 
-    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     public Instant getMoment() {
         return moment;
     }
