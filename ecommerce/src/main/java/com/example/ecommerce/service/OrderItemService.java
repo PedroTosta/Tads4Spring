@@ -1,8 +1,8 @@
 package com.example.ecommerce.service;
 
-import com.example.ecommerce.dto.OrderDTO;
-import com.example.ecommerce.entities.Order;
-import com.example.ecommerce.repositories.OrderRepository;
+import com.example.ecommerce.dto.OrderItemDTO;
+import com.example.ecommerce.entities.OrderItem;
+import com.example.ecommerce.repositories.OrderItemRepository;
 import com.example.ecommerce.service.exceptions.DatabaseException;
 import com.example.ecommerce.service.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
@@ -16,43 +16,42 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class OrderService {
+public class OrderItemService {
 
     @Autowired
-    private OrderRepository repository;
+    private OrderItemRepository repository;
 
-    public OrderDTO findById(Long id){
-        /*Optional<Product> result = repository.findById(id);
-        Product product = result.get();
-        ProductDTO dto = new ProductDTO(product); return dto;*/
-        Order order = repository.findById(id).
+    public OrderItemDTO findById(Long id){
+        OrderItem orderitem = repository.findById(id).
                 orElseThrow(()-> new ResourceNotFoundException("Recurso não encontrado"));
-        return new OrderDTO(order);}
+        return new OrderItemDTO(orderitem);}
 
 
     @Transactional(readOnly = true)
-    public Page<OrderDTO> findAll(Pageable pageable){
-        Page<Order> order = repository.findAll(pageable);
-        return order.map(x -> new OrderDTO(x));
+    public Page<OrderItemDTO> findAll(Pageable pageable){
+        Page<OrderItem> product = repository.findAll(pageable);
+        return product.map(x -> new OrderItemDTO(x));
     }
 
     @Transactional
-    public OrderDTO insert(OrderDTO dto){
-        Order entity = new Order();
-        entity.setMoment(dto.getMoment());
-        entity.setStatus(dto.getStatus());
+    public OrderItemDTO insert(OrderItemDTO dto){
+        OrderItem entity = new OrderItem();
+        entity.setQuantity(dto.getQuantity());
+        entity.setPrice(dto.getPrice());
+        entity.setOrder(dto.getId().getOrder());
+        entity.setProduct(dto.getId().getProduct());
 
         entity = repository.save(entity);
 
-        return new OrderDTO(entity);
+        return new OrderItemDTO(entity);
     }
 
     @Transactional
-    public OrderDTO update (Long id, OrderDTO dto) {
+    public OrderItemDTO update (Long id, OrderItemDTO dto) {
         try {
-            Order entity = repository.getReferenceById(id);
+            OrderItem entity = repository.getReferenceById(id);
             copyDtoToEntity(dto, entity);
-            return new OrderDTO(entity);
+            return new OrderItemDTO(entity);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Recurso não encontrado");
         }
@@ -69,9 +68,11 @@ public class OrderService {
         }
     }
 
-    private void copyDtoToEntity(OrderDTO dto, Order entity){
-        entity.setMoment(dto.getMoment());
-        entity.setStatus(dto.getStatus());
+    private void copyDtoToEntity(OrderItemDTO dto, OrderItem entity){
+        entity.setQuantity(dto.getQuantity());
+        entity.setPrice(dto.getPrice());
+        entity.setOrder(dto.getId().getOrder());
+        entity.setProduct(dto.getId().getProduct());
     }
 
 }

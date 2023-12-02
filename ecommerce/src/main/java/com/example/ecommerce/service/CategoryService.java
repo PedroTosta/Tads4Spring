@@ -1,8 +1,8 @@
 package com.example.ecommerce.service;
 
-import com.example.ecommerce.dto.OrderDTO;
-import com.example.ecommerce.entities.Order;
-import com.example.ecommerce.repositories.OrderRepository;
+import com.example.ecommerce.dto.CategoryDTO;
+import com.example.ecommerce.entities.Category;
+import com.example.ecommerce.repositories.CategoryRepository;
 import com.example.ecommerce.service.exceptions.DatabaseException;
 import com.example.ecommerce.service.exceptions.ResourceNotFoundException;
 import jakarta.persistence.EntityNotFoundException;
@@ -16,43 +16,42 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class OrderService {
+public class CategoryService {
 
     @Autowired
-    private OrderRepository repository;
+    private CategoryRepository repository;
 
-    public OrderDTO findById(Long id){
+    public CategoryDTO findById(Long id){
         /*Optional<Product> result = repository.findById(id);
         Product product = result.get();
         ProductDTO dto = new ProductDTO(product); return dto;*/
-        Order order = repository.findById(id).
+        Category category = repository.findById(id).
                 orElseThrow(()-> new ResourceNotFoundException("Recurso não encontrado"));
-        return new OrderDTO(order);}
+        return new CategoryDTO(category);}
 
 
     @Transactional(readOnly = true)
-    public Page<OrderDTO> findAll(Pageable pageable){
-        Page<Order> order = repository.findAll(pageable);
-        return order.map(x -> new OrderDTO(x));
+    public Page<CategoryDTO> findAll(Pageable pageable){
+        Page<Category> category = repository.findAll(pageable);
+        return category.map(x -> new CategoryDTO(x));
     }
 
     @Transactional
-    public OrderDTO insert(OrderDTO dto){
-        Order entity = new Order();
-        entity.setMoment(dto.getMoment());
-        entity.setStatus(dto.getStatus());
+    public CategoryDTO insert(CategoryDTO dto){
+        Category entity = new Category();
+        entity.setName(dto.getName());
 
         entity = repository.save(entity);
 
-        return new OrderDTO(entity);
+        return new CategoryDTO(entity);
     }
 
     @Transactional
-    public OrderDTO update (Long id, OrderDTO dto) {
+    public CategoryDTO update (Long id, CategoryDTO dto) {
         try {
-            Order entity = repository.getReferenceById(id);
+            Category entity = repository.getReferenceById(id);
             copyDtoToEntity(dto, entity);
-            return new OrderDTO(entity);
+            return new CategoryDTO(entity);
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Recurso não encontrado");
         }
@@ -69,9 +68,9 @@ public class OrderService {
         }
     }
 
-    private void copyDtoToEntity(OrderDTO dto, Order entity){
-        entity.setMoment(dto.getMoment());
-        entity.setStatus(dto.getStatus());
+    private void copyDtoToEntity(CategoryDTO dto, Category entity){
+        entity.setName(dto.getName());
+
     }
 
 }
